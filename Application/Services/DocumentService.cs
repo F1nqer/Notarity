@@ -18,44 +18,44 @@ namespace Application.Services
         public byte[] GetDocumentFile(DocumentReq doc)
         {
             Dictionary<string, string> dict = new Dictionary<string, string>();
-            dict.Add("{DocNumber}", doc.Number.ToString());
-            dict.Add("{DateBegin}", doc.DateBegin.ToString());
-            dict.Add("{DateEnd}", doc.DateEnd.ToString());
-            dict.Add("{DocDate}", doc.DocDate.ToString());
-            dict.Add("{Action}", doc.Action.ToString());
-            dict.Add("{Territory}", doc.Territory);
-            dict.Add("{EmpFullName}", doc.Employee.FirstName
+            dict.Add("DocNumber", doc.Number.ToString());
+            dict.Add("DateBegin", doc.DateBegin.ToString());
+            dict.Add("DateEnd", doc.DateEnd.ToString());
+            dict.Add("DocDate", doc.DocDate.ToString());
+            dict.Add("Action", doc.Action.ToString());
+            dict.Add("Territory", doc.Territory);
+            dict.Add("EmpFullName", doc.Employee.FirstName
                               + " " + doc.Employee.LastName
                               + " " + doc.Employee.Patronymic);
-            dict.Add("{LicenseDate}", doc.Employee.LicenseDate.ToString());
-            dict.Add("{LicenseNumber}", doc.Employee.LicenseNumber);
-            dict.Add("{EmpTerritory}", doc.Employee.Territory);
-            dict.Add("{MajorClientFullName}", doc.MajorPerson.FirstName
+            dict.Add("LicenseDate", doc.Employee.LicenseDate.ToString());
+            dict.Add("LicenseNumber", doc.Employee.LicenseNumber);
+            dict.Add("EmpTerritory", doc.Employee.Territory);
+            dict.Add("MajorClientFullName", doc.MajorPerson.FirstName
                                + " " + doc.MajorPerson.LastName
                                + " " + doc.MajorPerson.Patronymic);
-            dict.Add("{MajorClientIIN}", doc.MajorPerson.IINBIN.ToString());
-            dict.Add("{MajorClientBirthDate}", doc.MajorPerson.BirthDate.ToString());
-            dict.Add("{MajorClientBirthAddress}", doc.MajorPerson.BirthAddress.Territory.ToString()
+            dict.Add("MajorClientIIN", doc.MajorPerson.IINBIN.ToString());
+            dict.Add("MajorClientBirthDate", doc.MajorPerson.BirthDate.ToString());
+            dict.Add("MajorClientBirthAddress", doc.MajorPerson.BirthAddress.Territory.ToString()
                                + " " + doc.MajorPerson.BirthAddress.City
                                + " " + doc.MajorPerson.BirthAddress.Street
                                + " " + doc.MajorPerson.BirthAddress.AddInfo
                                + " " + doc.MajorPerson.BirthAddress.HomeNum.ToString());
-            dict.Add("{MajorClientHomeAddress}", doc.MajorPerson.HomeAddress.Territory.ToString()
+            dict.Add("MajorClientHomeAddress", doc.MajorPerson.HomeAddress.Territory.ToString()
                                + " " + doc.MajorPerson.HomeAddress.City
                                + " " + doc.MajorPerson.HomeAddress.Street
                                + " " + doc.MajorPerson.HomeAddress.AddInfo
                                + " " + doc.MajorPerson.HomeAddress.HomeNum.ToString());
-            dict.Add("{MinorClientFullName}", doc.MinorPerson.FirstName
+            dict.Add("MinorClientFullName", doc.MinorPerson.FirstName
                                + " " + doc.MinorPerson.LastName
                                + " " + doc.MinorPerson.Patronymic);
-            dict.Add("{MinorClientIIN]", doc.MinorPerson.IINBIN.ToString());
-            dict.Add("{MinorClientBirthDate}", doc.MinorPerson.BirthDate.ToString());
-            dict.Add("{MinorClientBirthAddress}", doc.MinorPerson.BirthAddress.Territory.ToString()
+            dict.Add("MinorClientIIN", doc.MinorPerson.IINBIN.ToString());
+            dict.Add("MinorClientBirthDate", doc.MinorPerson.BirthDate.ToString());
+            dict.Add("MinorClientBirthAddress", doc.MinorPerson.BirthAddress.Territory.ToString()
                                + " " + doc.MinorPerson.BirthAddress.City
                                + " " + doc.MinorPerson.BirthAddress.Street
                                + " " + doc.MinorPerson.BirthAddress.AddInfo
                                + " " + doc.MinorPerson.BirthAddress.HomeNum.ToString());
-            dict.Add("{MinorClientHomeAddress}", doc.MinorPerson.HomeAddress.Territory.ToString()
+            dict.Add("MinorClientHomeAddress", doc.MinorPerson.HomeAddress.Territory.ToString()
                                + " " + doc.MinorPerson.HomeAddress.City
                                + " " + doc.MinorPerson.HomeAddress.Street
                                + " " + doc.MinorPerson.HomeAddress.AddInfo
@@ -73,11 +73,11 @@ namespace Application.Services
                     {
                         string originalContent = beforeEdit.GetContent();
                         List<IHtmlResource> allResources = beforeEdit.AllResources;
-                        string editedContent = "";
+                        string editedContent = originalContent;
 
                         foreach (var item in dict)
                         {
-                            editedContent = originalContent.Replace(item.Key, item.Value);
+                            editedContent = editedContent.Replace(item.Key, item.Value);
                         }
                         using (EditableDocument afterEdit = EditableDocument.FromMarkup(editedContent, allResources))
                         {
