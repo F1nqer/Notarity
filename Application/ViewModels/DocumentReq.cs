@@ -20,6 +20,5 @@ namespace Application.ViewModels
         public ClientReq MinorPerson { get; set; }
         public string Type { get; set; }
         public string SubType { get; set; }
-
     }
 }
