@@ -61,11 +61,12 @@ namespace Application.Services
         public Dictionary<string, string> InitDocDict(DocumentReq doc)
         {
             Dictionary<string, string> dict = new Dictionary<string, string>();
+            dict.Add("DocId", doc.DocumentId.ToString());
             dict.Add("DocNumber", doc.Number.ToString());
             dict.Add("DateBegin", doc.DateBegin.ToString());
             dict.Add("DateEnd", doc.DateEnd.ToString());
             dict.Add("DocDate", doc.DocDate.ToString());
-            dict.Add("Action", doc.Action.ToString());
+            dict.Add("ActionTitle", doc.ActionTitle);
             dict.Add("ActionDescription", doc.ActionDescription);
             dict.Add("DocTerritory", doc.DocTerritory);
             dict.Add("EmpFullName", doc.Employee.FirstName
@@ -79,12 +80,12 @@ namespace Application.Services
                                + " " + doc.MajorPerson.Patronymic);
             dict.Add("MajorClientIIN", doc.MajorPerson.IINBIN.ToString());
             dict.Add("MajorClientBirthDate", doc.MajorPerson.BirthDate.ToString());
-            dict.Add("MajorClientBirthAddress", doc.MajorPerson.BirthAddress.Territory.ToString()
+            dict.Add("MajorClientBirthAddress", doc.MajorPerson.BirthAddress.Territory
                                + " " + doc.MajorPerson.BirthAddress.City
                                + " " + doc.MajorPerson.BirthAddress.Street
                                + " " + doc.MajorPerson.BirthAddress.AddInfo
                                + " " + doc.MajorPerson.BirthAddress.HomeNum.ToString());
-            dict.Add("MajorClientHomeAddress", doc.MajorPerson.HomeAddress.Territory.ToString()
+            dict.Add("MajorClientHomeAddress", doc.MajorPerson.HomeAddress.Territory
                                + " " + doc.MajorPerson.HomeAddress.City
                                + " " + doc.MajorPerson.HomeAddress.Street
                                + " " + doc.MajorPerson.HomeAddress.AddInfo
@@ -94,12 +95,12 @@ namespace Application.Services
                                + " " + doc.MinorPerson.Patronymic);
             dict.Add("MinorClientIIN", doc.MinorPerson.IINBIN.ToString());
             dict.Add("MinorClientBirthDate", doc.MinorPerson.BirthDate.ToString());
-            dict.Add("MinorClientBirthAddress", doc.MinorPerson.BirthAddress.Territory.ToString()
+            dict.Add("MinorClientBirthAddress", doc.MinorPerson.BirthAddress.Territory
                                + " " + doc.MinorPerson.BirthAddress.City
                                + " " + doc.MinorPerson.BirthAddress.Street
                                + " " + doc.MinorPerson.BirthAddress.AddInfo
                                + " " + doc.MinorPerson.BirthAddress.HomeNum.ToString());
-            dict.Add("MinorClientHomeAddress", doc.MinorPerson.HomeAddress.Territory.ToString()
+            dict.Add("MinorClientHomeAddress", doc.MinorPerson.HomeAddress.Territory
                                + " " + doc.MinorPerson.HomeAddress.City
                                + " " + doc.MinorPerson.HomeAddress.Street
                                + " " + doc.MinorPerson.HomeAddress.AddInfo

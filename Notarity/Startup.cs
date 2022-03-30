@@ -24,7 +24,7 @@ namespace Notarity
 
         public IConfiguration Configuration { get; }
 
-=        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<DocumentService>();
             services.AddControllers();

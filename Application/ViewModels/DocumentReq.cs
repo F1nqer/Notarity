@@ -8,6 +8,7 @@ namespace Application.ViewModels
 {
     public class DocumentReq
     {
+        //Идентификатор документа, указывается в правом нижнем углу печатной формы
         public int DocumentId { get; set; }
         //Номер документа
         public int Number { get; set; }
@@ -21,7 +22,7 @@ namespace Application.ViewModels
         public string DocTerritory { get; set; }
         //Основное действие (представлять мои интересы, водить моё авто, предъявлять мои документы, получить наследство)
         //Действия и описание переработаем, как разделим на типы и логику
-        public string Action { get; set; }
+        public string ActionTitle { get; set; }
         //Более подробное описание действия, что куда и как
         public string ActionDescription { get; set; }
         //Сотрудник(Нотариус) который этим документом управляет
