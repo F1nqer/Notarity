@@ -17,13 +17,57 @@ namespace Application.Services
     {
         public byte[] GetDocumentFile(DocumentReq doc)
         {
+           
+            using (FileStream fs = File.OpenRead("Files/TrustDocument.docx"))
+            {
+                var dict = InitDocDict(doc);
+                using (Editor editor = new Editor(delegate { return fs; }))
+                {
+                    WordProcessingEditOptions editOptions = new WordProcessingEditOptions();
+                    editOptions.FontExtraction = FontExtractionOptions.ExtractEmbeddedWithoutSystem;
+                    editOptions.EnableLanguageInformation = true;
+                    editOptions.EnablePagination = true;
+                    using (EditableDocument beforeEdit = editor.Edit(editOptions))
+                    {
+                        string originalContent = beforeEdit.GetContent();
+                        List<IHtmlResource> allResources = beforeEdit.AllResources;
+                        string editedContent = originalContent;
+
+                        foreach (var item in dict)
+                        {
+                            editedContent = editedContent.Replace(item.Key, item.Value);
+                        }
+                        using (EditableDocument afterEdit = EditableDocument.FromMarkup(editedContent, allResources))
+                        {
+                            WordProcessingFormats docxFormat = WordProcessingFormats.Docx;
+                            WordProcessingSaveOptions saveOptions = new WordProcessingSaveOptions(docxFormat);
+
+                            saveOptions.EnablePagination = true;
+                            saveOptions.Locale = System.Globalization.CultureInfo.GetCultureInfo("ru-RU");
+                            saveOptions.OptimizeMemoryUsage = true;
+                            using (FileStream outputStream = File.Create("Files/editedTrustDocument.docx"))
+                            {
+                                editor.Save(afterEdit, outputStream, saveOptions);
+                            }
+                        }
+                    }
+                }
+            }
+            string path = Path.Combine("Files/editedTrustDocument.docx");
+            byte[] mas = File.ReadAllBytes(path);
+            return mas;
+        }
+
+        public Dictionary<string, string> InitDocDict(DocumentReq doc)
+        {
             Dictionary<string, string> dict = new Dictionary<string, string>();
             dict.Add("DocNumber", doc.Number.ToString());
             dict.Add("DateBegin", doc.DateBegin.ToString());
             dict.Add("DateEnd", doc.DateEnd.ToString());
             dict.Add("DocDate", doc.DocDate.ToString());
             dict.Add("Action", doc.Action.ToString());
-            dict.Add("Territory", doc.Territory);
+            dict.Add("ActionDescription", doc.ActionDescription);
+            dict.Add("DocTerritory", doc.DocTerritory);
             dict.Add("EmpFullName", doc.Employee.FirstName
                               + " " + doc.Employee.LastName
                               + " " + doc.Employee.Patronymic);
@@ -60,44 +104,7 @@ namespace Application.Services
                                + " " + doc.MinorPerson.HomeAddress.Street
                                + " " + doc.MinorPerson.HomeAddress.AddInfo
                                + " " + doc.MinorPerson.HomeAddress.HomeNum.ToString());
-
-            using (FileStream fs = File.OpenRead("Files/TrustDocument.docx"))
-            {
-                using (Editor editor = new Editor(delegate { return fs; }))
-                {
-                    WordProcessingEditOptions editOptions = new WordProcessingEditOptions();
-                    editOptions.FontExtraction = FontExtractionOptions.ExtractEmbeddedWithoutSystem;
-                    editOptions.EnableLanguageInformation = true;
-                    editOptions.EnablePagination = true;
-                    using (EditableDocument beforeEdit = editor.Edit(editOptions))
-                    {
-                        string originalContent = beforeEdit.GetContent();
-                        List<IHtmlResource> allResources = beforeEdit.AllResources;
-                        string editedContent = originalContent;
-
-                        foreach (var item in dict)
-                        {
-                            editedContent = editedContent.Replace(item.Key, item.Value);
-                        }
-                        using (EditableDocument afterEdit = EditableDocument.FromMarkup(editedContent, allResources))
-                        {
-                            WordProcessingFormats docxFormat = WordProcessingFormats.Docx;
-                            WordProcessingSaveOptions saveOptions = new WordProcessingSaveOptions(docxFormat);
-
-                            saveOptions.EnablePagination = true;
-                            saveOptions.Locale = System.Globalization.CultureInfo.GetCultureInfo("ru-RU");
-                            saveOptions.OptimizeMemoryUsage = true;
-                            using (FileStream outputStream = File.Create("Files/editedTrustDocument.docx"))
-                            {
-                                editor.Save(afterEdit, outputStream, saveOptions);
-                            }
-                        }
-                    }
-                }
-            }
-            string path = Path.Combine("Files/editedTrustDocument.docx");
-            byte[] mas = File.ReadAllBytes(path);
-            return mas;
+            return dict;
         }
     }
 }
